@@ -42,8 +42,11 @@ class TransactionController extends Controller
         $Transactionsave->title = $request->title;
         $Transactionsave->destination = $request->destination;
         $Transactionsave->purpose = $request->purpose;
+        $Transactionsave->from_id = Auth::id();
         $Transactionsave->short_description = $request->short_description;
         $Transactionsave->status = "pending";
+        $Transactionsave->created_id = Auth::id();
+        $Transactionsave->notif = 0;
         
 
         $Transactionsave->save();

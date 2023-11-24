@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Approved;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApprovedController extends Controller
 {
@@ -28,8 +29,18 @@ class ApprovedController extends Controller
         $approved = Approved::select('*')
         ->join('transactions', 'transactions.id', '=', 'approved.transaction_id')
         ->get();
-
         return view('Admin.Dashboard.view-approved', compact('approved'));
        
+    }
+
+    public function approvedNotification(){
+
+        Approved::where('notif', 0)->update(array(
+            'notif' => 1
+        ));
+
+        return response() -> json([
+            'status_code' =>1
+        ]);
     }
 }

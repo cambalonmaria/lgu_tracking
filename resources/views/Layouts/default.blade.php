@@ -12,6 +12,7 @@
    <link rel="stylesheet" href="{{ asset('/asset/css/style.css') }}">
    <link rel="stylesheet" href="{{ asset('/asset/tables/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
    <link rel="stylesheet" href="{{ asset('/asset/tables/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
    <style type="text/css">
 
       td a.btn{
@@ -23,6 +24,10 @@
       table tr td {
          padding: 0.3rem !important;
       }
+
+      .popover{
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+}
    </style>
 </head>
 
@@ -35,7 +40,13 @@
                   <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars" style="color: white;"></i></a>
                </li>
          </ul>
+         
+            
+         
          <ul class="navbar-nav ml-auto">
+               <li class="nav-item">
+                  
+               </li>
                <li class="nav-item">
                   <a class="nav-link" href="#" role="button">
                      <img src="{{ asset('/asset/img/admin-icon.jpg') }}" class="img-circle" alt="User Image" width="40" style="margin-top: -8px;">
@@ -54,7 +65,7 @@
          </nav>
       <aside class="main-sidebar sidebar-light-primary" style="background-color: black;">
             <!-- Brand Logo -->
-         <a href="index.html" class="brand-link">
+         <a href="/" class="brand-link">
          <img src="{{ asset('/asset/img/logo-bontoc.png') }}" alt="DSMS Logo" width="200">
          </a>
          <div class="sidebar">
@@ -160,14 +171,25 @@
    <script src="{{asset('/asset/tables/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
    <script src="{{asset('/asset/tables/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
    <script src="{{asset('/asset/tables/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-   
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
    <script>
       $(function () {
          $("#example1").DataTable();
       });
+      $(function () {
+         $('[data-toggle="popover"]').popover({
+            html:true,
+            sanitize: false,
+            container: 'body'
+         })
+      })
+      
+     
    </script>
 
 
 </body>
 
 </html>
+

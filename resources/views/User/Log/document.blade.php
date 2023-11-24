@@ -33,7 +33,7 @@
     
 </div>
 
-<div id="search-result" class="mt-4 m-4">
+<div id="search-result" class="mt-4 m-4" style="text-align: center">
     
 </div>
 

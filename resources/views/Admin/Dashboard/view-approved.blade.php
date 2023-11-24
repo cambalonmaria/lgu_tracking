@@ -23,10 +23,12 @@
                     <div class="table-responsive" style="height: 460px;">
                        <table class="table">
                             @foreach ($approved as $approved)
-                                <th>Transaction Code: {{ $approved->transaction_code }}</th>
-                                <th>Name: {{ $approved->fullname }}</th>
-                                <th>Title: {{ $approved->title }}</th>
-                                <th><a href="{{ url('admin/transactionLogs/').'/'.$approved->id }}"><button class="btn btn-primary">View</button></a></th>
+                              <tr>
+                                 <th>Transaction Code: {{ $approved->transaction_code }}</th>
+                                 <th>Name: {{ $approved->fullname }}</th>
+                                 <th>Title: {{ $approved->title }}</th>
+                                 <th><a href="{{ url('admin/transactionLogs/').'/'.$approved->id }}"><button class="btn btn-primary">View</button></a></th>
+                              </tr>
                             @endforeach
                        </table>
                     </div>

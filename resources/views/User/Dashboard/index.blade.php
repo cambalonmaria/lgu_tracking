@@ -25,7 +25,7 @@
 
                         <div class="info-box-content">
                            <span class="info-box-text">
-                              <h5>Number of Pending Transaction</h5>
+                              <h5>Number of Transaction</h5>
                            </span>
                            <span class="info-box-number">
                              <h2>{{ $pending }}</h2>
@@ -43,6 +43,22 @@
                            </span>
                            <span class="info-box-number">
                               <h2>{{ $approved }}</h2>
+                           
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="col-12 col-sm-8 col-md-8 offset-sm-2 offset-md-2 offset-lg-2">
+                     <div class="info-box">
+                        <span class="info-box-icon text-info"><img src="../asset/img/files-icon.jpg" width="50"></span>
+
+                        <div class="info-box-content">
+                           <span class="info-box-text">
+                              <h5>Number of Rejected Files</h5>
+                           </span>
+                           <span class="info-box-number">
+                              <h2>{{ $rejected }}</h2>
                            
                            </span>
                         </div>

@@ -36,6 +36,17 @@ class LogController extends Controller
 
       return view('Admin.Log.view-log', compact('transactions'));
   }
-     
+    
+  public function searchTransaction(Request $request){
+    $search_val = $request->search_value;
+
+    $transactions =TrackingLog::select('tracking_logs.title', 'tracking_logs.short_description', 'tracking_logs.department','tracking_logs.updated_at')
+    ->join('transactions', 'transactions.id', '=', 'tracking_logs.transaction_id')
+    ->where('transaction_code', $search_val)
+    ->get();
+
+    return view('User.Log.document-search',compact('transactions'));
+    
+}
     
 }

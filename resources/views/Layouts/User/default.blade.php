@@ -53,7 +53,7 @@
          </nav>
       <aside class="main-sidebar sidebar-light-primary" style="background-color: black;">
             <!-- Brand Logo -->
-         <a href="index.html" class="brand-link">
+         <a href="/" class="brand-link">
          <img src="{{ asset('/asset/img/logo-bontoc.png') }}" alt="DSMS Logo" width="200">
          </a>
          <div class="sidebar">
@@ -77,6 +77,14 @@
                         </p>
                         <i class="right fas fa-angle-left" style="color: white;"></i>
                      </a>
+                  <ul class="nav nav-treeview">
+                     <li class="nav-item">
+                        <a href="{{ route('user.new.transaction') }}" class="nav-link">
+                           <i class="nav-icon far fa-circle" style="color: white;"></i>
+                           <p style="color: white;"> New </p>
+                        </a>
+                     </li>
+                  </ul>
                <ul class="nav nav-treeview">
                   <li class="nav-item">
                      <a href="{{ route('pending.user') }}" class="nav-link">
@@ -88,6 +96,12 @@
                      <a href="{{ route('approved.user') }}" class="nav-link">
                         <i class="nav-icon far fa-circle" style="color: white;"></i>
                         <p style="color: white;">Approved</p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{{ route('user.rejected.transactions') }}" class="nav-link">
+                        <i class="nav-icon far fa-circle" style="color: white;"></i>
+                        <p style="color: white;">Rejected</p>
                      </a>
                   </li>
                </ul>
@@ -138,6 +152,8 @@
    <!-- jQuery -->
    <script src="{{ asset('/asset/jquery/jquery.min.js') }}"></script>
    <script src="{{ asset('/asset/js/adminlte.js') }}"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 
 </html>

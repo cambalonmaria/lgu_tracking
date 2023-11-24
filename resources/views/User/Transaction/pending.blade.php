@@ -50,6 +50,7 @@
                         <thead>
                            <tr>
                               <th>Transaction Code</th>
+                              <th>From</th>
                               <th>Full Name</th>
                               <th>Contact Number</th>
                               <th>Email Address</th>
@@ -66,6 +67,7 @@
                           @foreach($transactions as $transaction)
                           <tr class="table-row">
                               <td>{{$transaction->transaction_code}}</td>
+                              <td>{{ $transaction->department }}</td>
                               <td>{{$transaction->fullname}}</td>
                               <td>{{$transaction->contact_number}}</td>
                               <td>{{$transaction->email_address}}</td>
@@ -73,11 +75,11 @@
                               <td>{{$transaction->title}}</td>
                               <td>{{$transaction->purpose}}</td>
                               <td>{{$transaction->short_description}}</td>
-                              <td><a class="btn btn-sm btn-success" href="{{ url('user/transactionLogs/').'/'.$transaction->id }}">View</a></td>
+                              <td><a href="{{ url('user/transactionLogs/').'/'.$transaction->t_id }}"><button class="btn btn-sm btn-primary">View</button></a></td>
                               <td>
-                                 <a class="btn btn-sm btn-danger" href="{{ url('/pending/delete/').'/'.$transaction->id }}">Delete</a>
+                                 <button class="btn btn-sm btn-danger btn-reject" sid="{{ $transaction->t_id }}" from-id="{{ Auth::id() }}" creator-id="{{ $transaction->from_id }}">Reject</button>
                               </td>
-                              <td style="text-align: center"><input type="checkbox" name="" class="form-check-control approve-checbox" sid='{{ $transaction->id }}'></td>
+                              <td style="text-align: center"><input type="checkbox" name="" class="form-check-control approve-checbox" sid='{{ $transaction->t_id }}'></td>
                            </tr>
                            @endforeach
                         </tbody>
@@ -108,10 +110,33 @@
                <option value="{{ $user->id }}" des-name="{{ $user->name }}" des-pos="{{ $user->position }}" des-dept="{{ $user->department }}">{{ $user->name }} | {{ $user->position }} | {{ $user->department }}</option>
             @endforeach
          </select>
+         <label for="" class="mt-2">Optional: </label>
+         <input type="text" class="form-control" placeholder="Enter name of receiver (if employee is not around)" id="receiver-name">
        </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
          <button type="button" class="btn btn-primary" id="btn-approve">Save changes</button>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h1 class="modal-title fs-5" id="exampleModalLabel">Reject Transaction</h1>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+         <input type="text" id="transaction-id" class="form-control" style="display: none">
+         <input type="text" id="from-id" class="form-control" style="display: none">
+         <input type="text" id="creator-id" class="form-control" style="display: none">
+         <input type="text" name="" placeholder="Reason for rejection" id="reject-reason" class="form-control">
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         <button type="button" class="btn btn-danger" id="btn-reject">Reject</button>
        </div>
      </div>
    </div>
@@ -124,6 +149,61 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+
+   $('.btn-reject').click(function (e) { 
+      e.preventDefault();
+
+      let id = $(this).attr('sid');
+      let from_id = $(this).attr('from-id');
+      let creator_id = $(this).attr('creator-id');
+
+      $('#rejectModal').modal('toggle');
+
+      $('#transaction-id').val(id);
+      $('#from-id').val(from_id);
+      $('#creator-id').val(creator_id);
+     
+   });
+
+   $('#btn-reject').click(function (e) { 
+      e.preventDefault();
+
+      let transaction_id = $('#transaction-id').val();
+      let from_id = $('#from-id').val();
+      let reason = $('#reject-reason').val();
+      let creator_id = $('#creator-id').val();
+      
+
+      Swal.fire({
+      title: "Reject?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, reject it!"
+      }).then((result) => {
+      if (result.isConfirmed) {
+         $.ajax({
+            type: "POST",
+            url: '{{ route('user.reject.transaction') }}',
+            data: {
+               'transaction_id': transaction_id,
+               'from_id': from_id,
+               '_token': "{{ csrf_token() }}",
+               'reason': reason,
+               'creator_id': creator_id
+            },
+            dataType: "json",
+            success: function (response) {
+              
+            }
+         });
+      }
+      });
+
+      $('#rejectModal').modal('toggle');
+   });
 
 
    $('input[type=checkbox]').click(function (e) { 
@@ -148,9 +228,9 @@
          let toName = $('option:selected', '#transaction-destination').attr('des-name');
          let toPosition = $('option:selected', '#transaction-destination').attr('des-pos');
          let toDepartment = $('option:selected', '#transaction-destination').attr('des-dept');
-
+         let receiver = $('#receiver-name').val();
          
-
+         
          $.ajax({
          type: "POST",
          url: "{{ route('user.approveTransaction') }}",
@@ -161,6 +241,7 @@
             'to_name': toName,
             'to_position': toPosition,
             'to_department': toDepartment,
+            'receiver': receiver
          },
          success: function (response) {
             if(response.status_code == 1){
@@ -173,7 +254,7 @@
       });
       
       
-      
+      $('#exampleModal').modal('toggle');
       
    });
 </script>

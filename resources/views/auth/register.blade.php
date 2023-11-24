@@ -97,6 +97,7 @@
             if(response.status_code == 1){
                 $('#response').text('Success');
                 $('#response').css('color', 'light-green');
+                location.href = "/login";
             }
             else{
                 $('#response').text('Error, There was an error during the process');

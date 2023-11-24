@@ -20,8 +20,9 @@ class UserApprovedController extends Controller
         $transactions = Approved::select('t.*','users.name as u_name')
         ->join('transactions as t','t.id', '=', 'approved.transaction_id')
         ->join('users', 'users.id', '=', 'approved.to_id')
-        ->where('from_id', Auth::id())->get();
+        ->where('approved.from_id', Auth::id())->get();
         ;
+
 
         // I-display o gamita ang mga transactions
       
